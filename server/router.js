@@ -12,6 +12,7 @@ const router = (app) => {
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
   app.get('/passwordPage', mid.requiresSecure, controllers.Account.passwordPage);
   app.get('/upgradePage', mid.requiresSecure, controllers.Account.upgradePage);
+  app.get('/profilePage', mid.requiresSecure, controllers.Account.profilePage);
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
   app.get('/maker', mid.requiresLogin, controllers.Quiz.makerPage);
   app.post('/maker', mid.requiresLogin, controllers.Quiz.make);

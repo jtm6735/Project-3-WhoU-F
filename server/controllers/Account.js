@@ -22,6 +22,10 @@ const passwordPage = (req,res) => {
     res.render('changePassword');
 };
 
+const profilePage = (req,res) => {
+  res.render('profilePage');
+};
+
 // Render 404 page
 const notFoundPage = (req, res) => {
   res.render('notFound', { csrfToken: req.csrfToken() });
@@ -164,6 +168,7 @@ module.exports.logout = logout;
 module.exports.passwordPage = passwordPage;
 module.exports.notFoundPage = notFoundPage;
 module.exports.upgradePage = upgradePage;
+module.exports.profilePage = profilePage;
 module.exports.quizPage = quizPage;
 module.exports.changePassword = changePassword;
 module.exports.signup = signup;
