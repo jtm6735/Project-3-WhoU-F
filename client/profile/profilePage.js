@@ -5,9 +5,9 @@ const QuizList = function(props) {
         return (
             <div className='quizzesList'>
                 <h1 className="profileHeader"> Welcome! You haven't taken any quizzes yet!</h1>
-            <p>
+            <h3>
                 To create more information about your profile, go complete a quiz.
-            </p>
+            </h3>
             </div>
         );
     }

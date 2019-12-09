@@ -11,7 +11,7 @@ const QuizList = function (props) {
                 ' Welcome! You haven\'t taken any quizzes yet!'
             ),
             React.createElement(
-                'p',
+                'h3',
                 null,
                 'To create more information about your profile, go complete a quiz.'
             )
