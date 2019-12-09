@@ -1,6 +1,7 @@
-"use strict";
-
-var handleLogin = function handleLogin(e) {
+// Checks for both inputs to be filled
+// with text. If no text is in one or either
+// box, an error will be thrown.
+const handleLogin = e => {
     e.preventDefault();
 
     $("#quizMessage").animate({ width: 'hide' }, 350);
@@ -17,7 +18,10 @@ var handleLogin = function handleLogin(e) {
     return false;
 };
 
-var handleSignup = function handleSignup(e) {
+// Check to see if the new user has
+// filled out the fields
+// Check if both passwords match
+const handleSignup = e => {
     e.preventDefault();
 
     $("#quizMessage").animate({ width: 'hide' }, 350);
@@ -37,7 +41,9 @@ var handleSignup = function handleSignup(e) {
     return false;
 };
 
-var LoginWindow = function LoginWindow(props) {
+// Creates form used to login with
+// username and password
+const LoginWindow = props => {
     return React.createElement(
         "form",
         { id: "loginForm", name: "loginForm",
@@ -62,7 +68,10 @@ var LoginWindow = function LoginWindow(props) {
     );
 };
 
-var SignupWindow = function SignupWindow(props) {
+// Creates form for signing up
+// This form uses the username,
+// password, and confirmed password
+const SignupWindow = props => {
     return React.createElement(
         "form",
         { id: "signupForm", name: "signupForm",
@@ -93,25 +102,29 @@ var SignupWindow = function SignupWindow(props) {
     );
 };
 
-var createLoginWindow = function createLoginWindow(csrf) {
+// Creates login view in the center of the page
+const createLoginWindow = csrf => {
     ReactDOM.render(React.createElement(LoginWindow, { csrf: csrf }), document.querySelector('#content'));
 };
 
-var createSignupWindow = function createSignupWindow(csrf) {
+// Creates login view in the center of the page
+const createSignupWindow = csrf => {
     ReactDOM.render(React.createElement(SignupWindow, { csrf: csrf }), document.querySelector('#content'));
 };
 
-var setup = function setup(csrf) {
-    var loginButton = document.querySelector('#loginButton');
-    var signupButton = document.querySelector('#signupButton');
+// Depending on if login or sign up is clicked,
+// a different view is created
+const setup = csrf => {
+    const loginButton = document.querySelector('#loginButton');
+    const signupButton = document.querySelector('#signupButton');
 
-    signupButton.addEventListener('click', function (e) {
+    signupButton.addEventListener('click', e => {
         e.preventDefault();
         createSignupWindow(csrf);
         return false;
     });
 
-    loginButton.addEventListener('click', function (e) {
+    loginButton.addEventListener('click', e => {
         e.preventDefault();
         createLoginWindow();
         return false;
@@ -120,28 +133,29 @@ var setup = function setup(csrf) {
     createLoginWindow(csrf);
 };
 
-var getToken = function getToken() {
-    sendAjax('GET', '/getToken', null, function (result) {
+const getToken = () => {
+    sendAjax('GET', '/getToken', null, result => {
         setup(result.csrfToken);
     });
 };
 
+// Load in the csrf token
 $(document).ready(function () {
     getToken();
 });
-'use strict';
-
-var handleError = function handleError(message) {
+// Functions to be used across the rest
+// of the bundles created
+const handleError = message => {
   $('#errorMessage').text(message);
   $('#quizMessage').animate({ height: 'toggle' }, 300);
 };
 
-var redirect = function redirect(response) {
+const redirect = response => {
   $('#quizMessage').animate({ height: 'hide' }, 350);
   window.location = response.redirect;
 };
 
-var sendAjax = function sendAjax(type, action, data, success) {
+const sendAjax = (type, action, data, success) => {
   $.ajax({
     cache: false,
     type: type,
@@ -149,7 +163,7 @@ var sendAjax = function sendAjax(type, action, data, success) {
     data: data,
     dataType: 'json',
     success: success,
-    error: function error(xhr, status, _error) {
+    error: function (xhr, status, error) {
       var messageObj = JSON.parse(xhr.responseText);
       handleError(messageObj.error);
     }

@@ -22,8 +22,9 @@ const passwordPage = (req,res) => {
     res.render('changePassword');
 };
 
+// Render profile page
 const profilePage = (req,res) => {
-  res.render('profilePage');
+  res.render('profile');
 };
 
 // Render 404 page

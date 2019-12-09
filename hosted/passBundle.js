@@ -1,6 +1,6 @@
-"use strict";
-
-var handleChange = function handleChange(e) {
+// Checks if the user has filled in all the fields
+// Depending on varying outcomes, the error message is different
+const handleChange = e => {
     e.preventDefault();
 
     $("#quizMessage").animate({ width: 'hide' }, 350); //change
@@ -20,14 +20,16 @@ var handleChange = function handleChange(e) {
         return false;
     }
 
-    sendAjax('POST', '/changePassword', $('#changeForm').serialize(), function () {
+    sendAjax('POST', '/changePassword', $('#changeForm').serialize(), () => {
         handleError('The Password has been changed');
     });
 
     return false;
 };
 
-var ChangeWindow = function ChangeWindow(props) {
+// Create the changed password with the
+// current, new, and confirmed new password
+const ChangePassword = props => {
     return React.createElement(
         "form",
         { id: "changeForm", name: "changeForm",
@@ -58,32 +60,34 @@ var ChangeWindow = function ChangeWindow(props) {
     );
 };
 
-var setup = function setup(csrf) {
-    ReactDOM.render(React.createElement(ChangeWindow, { csrf: csrf }), document.querySelector('#content'));
+// Preps to render error messages in content
+const setup = csrf => {
+    ReactDOM.render(React.createElement(ChangePassword, { csrf: csrf }), document.querySelector('#content'));
 };
 
-var getToken = function getToken() {
-    sendAjax('GET', '/getToken', null, function (result) {
+const getToken = () => {
+    sendAjax('GET', '/getToken', null, result => {
         setup(result.csrfToken);
     });
 };
 
+// Displays content from the setup
 $(document).ready(function () {
     getToken();
 });
-'use strict';
-
-var handleError = function handleError(message) {
+// Functions to be used across the rest
+// of the bundles created
+const handleError = message => {
   $('#errorMessage').text(message);
   $('#quizMessage').animate({ height: 'toggle' }, 300);
 };
 
-var redirect = function redirect(response) {
+const redirect = response => {
   $('#quizMessage').animate({ height: 'hide' }, 350);
   window.location = response.redirect;
 };
 
-var sendAjax = function sendAjax(type, action, data, success) {
+const sendAjax = (type, action, data, success) => {
   $.ajax({
     cache: false,
     type: type,
@@ -91,7 +95,7 @@ var sendAjax = function sendAjax(type, action, data, success) {
     data: data,
     dataType: 'json',
     success: success,
-    error: function error(xhr, status, _error) {
+    error: function (xhr, status, error) {
       var messageObj = JSON.parse(xhr.responseText);
       handleError(messageObj.error);
     }

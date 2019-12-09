@@ -1,9 +1,7 @@
-'use strict';
-
 // Checks for if all the required fields
 // have been given values. Throws an error
 // if this happens.
-var handleQuiz = function handleQuiz(e) {
+const handleQuiz = e => {
     e.preventDefault();
 
     $('#quizMessage').animate({ width: 'hide' }, 350);
@@ -22,7 +20,7 @@ var handleQuiz = function handleQuiz(e) {
 
 // Creates a quiz form for users to fill out 
 // and answer
-var QuizForm = function QuizForm(props) {
+const QuizForm = props => {
     return React.createElement(
         'form',
         { id: 'quizForm',
@@ -68,7 +66,7 @@ var QuizForm = function QuizForm(props) {
 
 // Creates the list of quiz answers
 // If nothing had been completed, no data gets shown
-var QuizList = function QuizList(props) {
+const QuizList = function (props) {
     if (props.quizzes.length === 0) {
         return React.createElement(
             'div',
@@ -81,7 +79,7 @@ var QuizList = function QuizList(props) {
         );
     }
 
-    var quizNodes = props.quizzes.map(function (quiz) {
+    const quizNodes = props.quizzes.map(function (quiz) {
         return React.createElement(
             'div',
             { key: quiz._id, className: 'quiz' },
@@ -124,33 +122,40 @@ var QuizList = function QuizList(props) {
     });
 };
 
-var setup = function setup(csrf) {
-    ReactDOM.render(React.createElement(QuizForm, { csrf: csrf }), document.querySelector('#makeQuiz'));
-    loadQuizzesFromServer();
+// Gets the list of quizzes from the server
+const loadQuizzesFromServer = () => {
+    sendAjax('GET', '/getQuizzes', null, data => {});
 };
 
-var getToken = function getToken() {
-    sendAjax('GET', '/getToken', null, function (result) {
+// 
+const setup = function (csrf) {
+    ReactDOM.render(React.createElement(QuizForm, { csrf: csrf }), document.querySelector('#makeQuiz'));
+};
+
+// Gets the csrf token
+const getToken = () => {
+    sendAjax('GET', '/getToken', null, result => {
         setup(result.csrfToken);
     });
 };
 
+// Creates the setup
 $(document).ready(function () {
     getToken();
 });
-'use strict';
-
-var handleError = function handleError(message) {
+// Functions to be used across the rest
+// of the bundles created
+const handleError = message => {
   $('#errorMessage').text(message);
   $('#quizMessage').animate({ height: 'toggle' }, 300);
 };
 
-var redirect = function redirect(response) {
+const redirect = response => {
   $('#quizMessage').animate({ height: 'hide' }, 350);
   window.location = response.redirect;
 };
 
-var sendAjax = function sendAjax(type, action, data, success) {
+const sendAjax = (type, action, data, success) => {
   $.ajax({
     cache: false,
     type: type,
@@ -158,7 +163,7 @@ var sendAjax = function sendAjax(type, action, data, success) {
     data: data,
     dataType: 'json',
     success: success,
-    error: function error(xhr, status, _error) {
+    error: function (xhr, status, error) {
       var messageObj = JSON.parse(xhr.responseText);
       handleError(messageObj.error);
     }
