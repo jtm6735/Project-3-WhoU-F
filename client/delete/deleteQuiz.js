@@ -1,13 +1,8 @@
-// Creates the list of quiz answers
-// If nothing had been completed, no data gets shown
 const QuizList = function(props) {
     if(props.quizzes.length === 0) {
         return (
             <div className='quizzesList'>
-                <h1 className="profileHeader"> Welcome! You haven't taken any quizzes yet!</h1>
-            <p>
-                To create more information about your profile, go complete a quiz.
-            </p>
+                <h3 className='emptyQuiz'>Nothing to delete yet</h3>
             </div>
         );
     }
@@ -15,11 +10,11 @@ const QuizList = function(props) {
     const quizNodes = props.quizzes.map(function(quiz) {
         return (
             <div key={quiz._id} className='quiz'>
-                <h1 className='profileHeader'> Hello {quiz.name}! </h1>
-                <h3 className='quizColor'> Your favorite color is {quiz.color} </h3>
-                <h3 className='quizHobby'> {quiz.hobby} is a favored hobby of yours. </h3>
-                <h3 className='quizAnimal'> {quiz.animal} is your favorite animal. </h3>
-                <h3 className='quizNumber'> Your Favorite Number: {quiz.number} </h3>
+                <h3 onClick="deleteQuiz(e)" className='quizName'> Name: {quiz.name} </h3>
+                <h3 onClick="deleteQuiz(e)" className='quizColor'> Age: {quiz.color} </h3>
+                <h3 onClick="deleteQuiz(e)" className='quizHobby'> Hobby: {quiz.hobby} </h3>
+                <h3 onClick="deleteQuiz(e)" className='quizAnimal'> Animal: {quiz.animal} </h3>
+                <h3 onClick="deleteQuiz(e)" className='quizNumber'> Number: {quiz.number} </h3>
             </div>
         );
     });
@@ -29,6 +24,18 @@ const QuizList = function(props) {
             {quizNodes}
         </div>
     );
+};
+
+
+const deleteQuiz = (e) => {
+	const id = e.target.parentElement.querySelector('.quizId').innerText;
+	const _csrf = document.querySelector('input[name="_csrf"]').value;
+	
+    console.log("delete processed");
+    
+	sendAjax('DELETE', '/deleteQuiz', {id, _csrf}, data => {
+		loadQuizzesFromServer();
+	});
 };
 
 // Loads in any finished quiz from the

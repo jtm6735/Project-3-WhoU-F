@@ -1,19 +1,12 @@
-// Creates the list of quiz answers
-// If nothing had been completed, no data gets shown
 const QuizList = function (props) {
     if (props.quizzes.length === 0) {
         return React.createElement(
             'div',
             { className: 'quizzesList' },
             React.createElement(
-                'h1',
-                { className: 'profileHeader' },
-                ' Welcome! You haven\'t taken any quizzes yet!'
-            ),
-            React.createElement(
-                'p',
-                null,
-                'To create more information about your profile, go complete a quiz.'
+                'h3',
+                { className: 'emptyQuiz' },
+                'Nothing to delete yet'
             )
         );
     }
@@ -23,37 +16,37 @@ const QuizList = function (props) {
             'div',
             { key: quiz._id, className: 'quiz' },
             React.createElement(
-                'h1',
-                { className: 'profileHeader' },
-                ' Hello ',
+                'h3',
+                { onClick: 'deleteQuiz(e)', className: 'quizName' },
+                ' Name: ',
                 quiz.name,
-                '! '
+                ' '
             ),
             React.createElement(
                 'h3',
-                { className: 'quizColor' },
-                ' Your favorite color is ',
+                { onClick: 'deleteQuiz(e)', className: 'quizColor' },
+                ' Age: ',
                 quiz.color,
                 ' '
             ),
             React.createElement(
                 'h3',
-                { className: 'quizHobby' },
-                ' ',
+                { onClick: 'deleteQuiz(e)', className: 'quizHobby' },
+                ' Hobby: ',
                 quiz.hobby,
-                ' is a favored hobby of yours. '
+                ' '
             ),
             React.createElement(
                 'h3',
-                { className: 'quizAnimal' },
-                ' ',
+                { onClick: 'deleteQuiz(e)', className: 'quizAnimal' },
+                ' Animal: ',
                 quiz.animal,
-                ' is your favorite animal. '
+                ' '
             ),
             React.createElement(
                 'h3',
-                { className: 'quizNumber' },
-                ' Your Favorite Number: ',
+                { onClick: 'deleteQuiz(e)', className: 'quizNumber' },
+                ' Number: ',
                 quiz.number,
                 ' '
             )
@@ -65,6 +58,17 @@ const QuizList = function (props) {
         { className: 'quizList' },
         quizNodes
     );
+};
+
+const deleteQuiz = e => {
+    const id = e.target.parentElement.querySelector('.quizId').innerText;
+    const _csrf = document.querySelector('input[name="_csrf"]').value;
+
+    console.log("delete processed");
+
+    sendAjax('DELETE', '/deleteQuiz', { id, _csrf }, data => {
+        loadQuizzesFromServer();
+    });
 };
 
 // Loads in any finished quiz from the

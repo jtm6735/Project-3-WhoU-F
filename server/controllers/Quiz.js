@@ -16,17 +16,13 @@ const makerPage = (req, res) => {
 // Makes a new quiz to be filled out
 // Checks for all valid fields
 const makeQuiz = (req, res) => {
-  if (!req.body.name || !req.body.color || !req.body.hobby || !req.body.animal 
+  if (!req.body.personality || !req.body.color || !req.body.hobby || !req.body.animal 
       || !req.body.number) {
-      console.dir(req.body.name);
-      console.dir(req.body.color);
-      console.dir(req.body.hobby);
-      console.dir(req.body.animal);
-      console.dir(req.body.number);
       return res.status(400).json({ error: 'All fields are required' });
   }
   const quizData = {
     name: req.body.name,
+    personality: req.body.personality,
     color: req.body.color,
     hobby: req.body.hobby,
     animal: req.body.animal,
@@ -50,6 +46,24 @@ const makeQuiz = (req, res) => {
   return quizPromise;
 };
 
+const makeName = (req,res) => {
+    if(!req.quiz.name){
+        return res.status(400).json({ error: 'You missed your name'});
+    }
+}
+
+// Deletes a specified quiz and throws an error
+// if something goes wrong along the way.
+const deleteQuiz = (req,res) => {
+    return Quiz.QuizModel.deleteById(req.body.id, (err) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({error: 'An error has occured'});
+        }    
+     return res.status(200).json({msg: 'The quiz has been deleted'});   
+    });
+};
+
 // Load previous quizzes from the server
 const getQuizzes = (request, response) => {
   const req = request;
@@ -67,3 +81,4 @@ const getQuizzes = (request, response) => {
 module.exports.makerPage = makerPage;
 module.exports.getQuizzes = getQuizzes;
 module.exports.make = makeQuiz;
+module.exports.deleteQuiz = deleteQuiz;
