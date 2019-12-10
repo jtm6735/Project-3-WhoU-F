@@ -16,13 +16,12 @@ const makerPage = (req, res) => {
 // Makes a new quiz to be filled out
 // Checks for all valid fields
 const makeQuiz = (req, res) => {
-  if (!req.body.personality || !req.body.color || !req.body.hobby || !req.body.animal
+  if (!req.body.name || !req.body.color || !req.body.hobby || !req.body.animal
       || !req.body.number) {
     return res.status(400).json({ error: 'All fields are required' });
   }
   const quizData = {
     name: req.body.name,
-    personality: req.body.personality,
     color: req.body.color,
     hobby: req.body.hobby,
     animal: req.body.animal,
