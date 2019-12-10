@@ -18,12 +18,12 @@ const upgradePage = (req, res) => {
 };
 
 // Render passward change page
-const passwordPage = (req,res) => {
-    res.render('changePassword');
+const passwordPage = (req, res) => {
+  res.render('changePassword');
 };
 
 // Render profile page
-const profilePage = (req,res) => {
+const profilePage = (req, res) => {
   res.render('profile');
 };
 
@@ -39,7 +39,7 @@ const logout = (req, res) => {
 };
 
 // Logs in the user
-// Checks for proper values and navigates 
+// Checks for proper values and navigates
 // that user to their main pages
 const login = (request, response) => {
   const req = request;

@@ -28,19 +28,19 @@ const QuizSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-    
+
   animal: {
     type: String,
     required: true,
     trim: true,
-  }, 
-    
+  },
+
   number: {
     type: Number,
     min: 0,
     required: true,
   },
-    
+
   owner: {
     type: mongoose.Schema.ObjectId,
     required: true,
