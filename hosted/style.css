@@ -247,13 +247,6 @@ input{
     text-align: left;
 }
 
-.quiz:hover {
-    transition: border-color 0.2s ease-out;
-    border-color: rgba(233,154,17, 0.8);
-    transition: background-color 2.6s ease-out;
-    background-color: #e9b16c;
-}
-
 .quiz h3{
     border-bottom: 1px solid #233B3B;
     font-family: 'Tomorrow', sans-serif;
